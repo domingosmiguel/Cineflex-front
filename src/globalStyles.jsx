@@ -3,8 +3,11 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
     *{
         --orange: #E8833A;
-        --gray: #C3CFD9;
+        --lightGray: #DFE6ED;
+        --darkGray: #9EADBA;
         --black: #293845;
+        --darkGreen: #0E7D71;
+        --midGreen: #1AAE9E;
         
         box-sizing: border-box;
         cursor: default;

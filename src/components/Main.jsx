@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Movies from "./Movies";
 import Title from "./Title";
 
-export default function Main(props) {
+export default function Main() {
     return (
         <SelectMovie>
             <Title color="var(--black)">Selecione o filme</Title>

@@ -10,6 +10,8 @@ export default function Header() {
 }
 
 const PageHeader = styled.header`
+    position: sticky;
+    top: 0;
     height: 67px;
     display: flex;
     justify-content: center;
@@ -17,6 +19,6 @@ const PageHeader = styled.header`
     font-size: 34px;
     line-height: 40px;
     color: var(--orange);
-    background-color: var(--gray);
+    background-color: var(--lightGray);
     cursor: pointer;
 `;

@@ -28,6 +28,9 @@ export default function Movies(props) {
 }
 
 const MoviesPostersContainer = styled.div`
+    position: sticky;
+    top: 170px;
+    bottom: 0;
     margin-top: -10px;
     width: 100vw;
     height: 100%;

@@ -1,13 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { DataProvider } from "./dataContext";
+
 import Header from "./components/Header";
 import GlobalStyles from "./globalStyles";
 import Main from "./components/Main";
 import Sessions from "./components/Sessions";
-import { useState } from "react";
-import { DataProvider } from "./dataContext";
+import Reservation from "./components/Reservation";
 
 function App() {
-    const [idFilme, setIdFilme] = useState("");
+    const [filmID, setFilmId] = useState("");
+    const [sessionsData, setSessionsData] = useState("");
+    const [timeId, setTimeId] = useState("");
+    const [timeData, setTimeData] = useState("");
 
     return (
         <BrowserRouter>
@@ -16,14 +21,29 @@ function App() {
             <Routes>
                 <Route
                     element={
-                        <DataProvider value={{ setIdFilme }}>
+                        <DataProvider value={{ setFilmId, setSessionsData }}>
                             <Main />
                         </DataProvider>
                     }
                     path="/"
                     exact
                 />
-                <Route element={<Sessions />} path={`/sessions/${idFilme}`} />
+                <Route
+                    element={
+                        <DataProvider value={{ setTimeId, setTimeData }}>
+                            <Sessions sessionsData={sessionsData} />
+                        </DataProvider>
+                    }
+                    path={`/film/${filmID}`}
+                />
+                <Route
+                    element={
+                        <DataProvider value={{}}>
+                            <Reservation timeData={timeData} />
+                        </DataProvider>
+                    }
+                    path={`/session/${timeId}`}
+                />
             </Routes>
         </BrowserRouter>
     );

@@ -1,13 +1,11 @@
 import styled from "styled-components";
 
-export default function Button({ children, timeId, handleSessionButtonClick }) {
-    function handleClick() {
-        const functionAction = handleSessionButtonClick || undefined;
-        const functionActionData = timeId || undefined;
-        functionAction(functionActionData);
-    }
-
-    return <NiceButton onClick={handleClick}>{children}</NiceButton>;
+export default function Button({ children, data, handleClick, disabled = false }) {
+    return (
+        <NiceButton disabled={disabled} onClick={() => handleClick(data)} type="button">
+            {children}
+        </NiceButton>
+    );
 }
 const NiceButton = styled.button`
     display: inline-block;

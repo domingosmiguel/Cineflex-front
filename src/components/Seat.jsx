@@ -1,27 +1,39 @@
 import styled from "styled-components";
 
-export default function Seat({ children, seat, selectedSeats, handleSeatSelection }) {
-    const borderColor = seat.isAvailable
-        ? seat.selected
-            ? "var(--darkGreen)"
-            : "var(--darkGray)"
-        : "var(--darkYellow)";
-    const backGroundColor = seat.isAvailable
-        ? seat.selected
-            ? "var(--midGreen)"
-            : "var(--lightGray)"
-        : "var(--lightYellow)";
+export default function Seat({ children, seat, handleSeatSelection, subtitle, color }) {
+    if (!subtitle) {
+        const borderColor = seat.isAvailable
+            ? seat.selected
+                ? "var(--darkGreen)"
+                : "var(--darkGray)"
+            : "var(--darkYellow)";
+        const backGroundColor = seat.isAvailable
+            ? seat.selected
+                ? "var(--midGreen)"
+                : "var(--lightGray)"
+            : "var(--lightYellow)";
 
-    return (
-        <MovieSeat
-            onClick={() => handleSeatSelection(seat)}
-            available={seat.isAvailable}
-            borderColor={borderColor}
-            backGroundColor={backGroundColor}
-        >
-            {children}
-        </MovieSeat>
-    );
+        return (
+            <MovieSeat
+                onClick={() => handleSeatSelection(seat)}
+                available={seat.isAvailable}
+                borderColor={borderColor}
+                backGroundColor={backGroundColor}
+            >
+                {children}
+            </MovieSeat>
+        );
+    } else {
+        return (
+            <MovieSeat
+                available={!subtitle}
+                borderColor={color.borderColor}
+                backGroundColor={color.backGroundColor}
+            >
+                {children}
+            </MovieSeat>
+        );
+    }
 }
 
 const MovieSeat = styled.div`
@@ -40,8 +52,4 @@ const MovieSeat = styled.div`
     font-size: 11px;
     line-height: 13px;
     letter-spacing: 0.04em;
-    &.selected {
-        background-color: "var(--midGreen)";
-        border-color: "var(--darkGreen)";
-    }
 `;

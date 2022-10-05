@@ -7,18 +7,20 @@ import GlobalStyles from "./globalStyles";
 import Main from "./components/Main";
 import Sessions from "./components/Sessions";
 import Reservation from "./components/Reservation";
+import Checkout from "./components/Checkout";
 
 function App() {
     const [filmID, setFilmId] = useState("");
     const [sessionsData, setSessionsData] = useState("");
     const [timeId, setTimeId] = useState("");
     const [timeData, setTimeData] = useState("");
-    const [selectedSeats, SetSelectedSeats] = useState("");
+    console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ timeData", timeData);
+    const [selectedSeats, SetSelectedSeats] = useState([]);
 
     return (
         <BrowserRouter>
             <GlobalStyles />
-            <Header></Header>
+            <Header SetSelectedSeats={SetSelectedSeats}></Header>
             <Routes>
                 <Route
                     element={
@@ -52,7 +54,7 @@ function App() {
                 <Route
                     element={
                         <DataProvider value={{}}>
-                            {/* <Reservation selectedSeats={selectedSeats} /> */}
+                            <Checkout selectedSeats={selectedSeats} timeData={timeData} />
                         </DataProvider>
                     }
                     path={`/success`}

@@ -34,11 +34,7 @@ export default function Session({ session }) {
             </TextContainer>
             <ButtonsContainer>
                 {showtimes.map((time) => (
-                    <Button
-                        key={time.id}
-                        timeId={time.id}
-                        handleSessionButtonClick={handleSessionButtonClick}
-                    >
+                    <Button key={time.id} data={time.id} handleClick={handleSessionButtonClick}>
                         {time.name}
                     </Button>
                 ))}

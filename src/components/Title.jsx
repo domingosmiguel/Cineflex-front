@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
-export default function Title({ children, color }) {
-    return <PageTitle color={color}>{children}</PageTitle>;
+export default function Title({ children, color = "black", fontWeight = "400" }) {
+    console.log("🚀 ~ file: Title.jsx ~ line 4 ~ Title ~ color", color);
+    return (
+        <PageTitle color={color} fontWeight={fontWeight}>
+            {children}
+        </PageTitle>
+    );
 }
 
 const PageTitle = styled.p`
@@ -15,6 +20,9 @@ const PageTitle = styled.p`
     justify-content: center;
     font-size: 24px;
     line-height: 28px;
+    letter-spacing: 0.04em;
     color: ${({ color }) => color};
+    font-weight: ${({ fontWeight }) => fontWeight};
     z-index: 2;
+    text-align: center;
 `;

@@ -22,18 +22,17 @@ export default function Sessions({ sessionsData }) {
     );
 }
 const SelectSessionsContainer = styled.section`
+    width: 100%;
     position: absolute;
     top: 177px;
     bottom: 117px;
-    width: 100%;
     overflow-y: scroll;
 `;
 const SelectSessions = styled.section`
     position: relative;
     max-width: 900px;
-    width: 100%;
     margin: 0 auto;
-    padding: 0 25px;
+    padding: 0 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

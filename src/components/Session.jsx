@@ -6,22 +6,24 @@ import styled from "styled-components";
 import DataContext from "../dataContext";
 import Button from "./Button";
 
-export default function Session({ session, setTimeData }) {
-    const { id, weekday, date, showtimes } = session;
-    const { setSessionId } = useContext(DataContext);
+export default function Session({ session }) {
+    const { weekday, date, showtimes } = session;
+    const { setTimeId, setTimeData } = useContext(DataContext);
     const navigate = useNavigate();
 
     function getSessionDataSuccess({ data }) {
         setTimeData({ ...data });
-        navigate(`/film/${id}`);
+        navigate(`/session/${tempTimeId}`);
     }
     function failedToGetSessionData(error) {
         alert(error);
     }
+    let tempTimeId;
     function handleSessionButtonClick(timeId) {
-        setSessionId(timeId);
+        setTimeId(timeId);
+        tempTimeId = timeId;
         axios
-            .get("https://mock-api.driven.com.br/api/v5/cineflex/showtimes/ID_DA_SESSAO/seats")
+            .get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${timeId}/seats`)
             .then(getSessionDataSuccess)
             .catch(failedToGetSessionData);
     }
@@ -32,7 +34,11 @@ export default function Session({ session, setTimeData }) {
             </TextContainer>
             <ButtonsContainer>
                 {showtimes.map((time) => (
-                    <Button key={time.id} timeId={time.id} setSessionId={setSessionId}>
+                    <Button
+                        key={time.id}
+                        timeId={time.id}
+                        handleSessionButtonClick={handleSessionButtonClick}
+                    >
                         {time.name}
                     </Button>
                 ))}
@@ -46,7 +52,6 @@ const FilmSession = styled.div`
     max-width: 400px;
     width: 100%;
     margin: 5px 0;
-    padding: 0 10px;
     font-size: 20px;
     line-height: 23px;
     letter-spacing: 0.02em;

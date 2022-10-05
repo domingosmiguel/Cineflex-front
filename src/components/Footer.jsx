@@ -25,7 +25,7 @@ const FooterBar = styled.div`
     max-width: 900px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 10px;
     display: flex;
     align-items: center;
     font-size: 26px;

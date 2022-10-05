@@ -3,11 +3,14 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
     *{
         --orange: #E8833A;
-        --lightGray: #DFE6ED;
-        --darkGray: #9EADBA;
+        --lightGray: #C3CFD9;
+        --darkGray: #808F9D;
         --black: #293845;
         --darkGreen: #0E7D71;
         --midGreen: #1AAE9E;
+        --lightYellow: #FBE192;
+        --darkYellow: #F7C52B;
+
         
         box-sizing: border-box;
         cursor: default;

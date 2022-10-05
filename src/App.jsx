@@ -13,6 +13,7 @@ function App() {
     const [sessionsData, setSessionsData] = useState("");
     const [timeId, setTimeId] = useState("");
     const [timeData, setTimeData] = useState("");
+    const [selectedSeats, SetSelectedSeats] = useState("");
 
     return (
         <BrowserRouter>
@@ -39,10 +40,22 @@ function App() {
                 <Route
                     element={
                         <DataProvider value={{}}>
-                            <Reservation timeData={timeData} />
+                            <Reservation
+                                timeData={timeData}
+                                selectedSeats={selectedSeats}
+                                SetSelectedSeats={SetSelectedSeats}
+                            />
                         </DataProvider>
                     }
                     path={`/session/${timeId}`}
+                />
+                <Route
+                    element={
+                        <DataProvider value={{}}>
+                            {/* <Reservation selectedSeats={selectedSeats} /> */}
+                        </DataProvider>
+                    }
+                    path={`/success`}
                 />
             </Routes>
         </BrowserRouter>

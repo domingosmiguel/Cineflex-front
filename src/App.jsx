@@ -14,13 +14,12 @@ function App() {
     const [sessionsData, setSessionsData] = useState("");
     const [timeId, setTimeId] = useState("");
     const [timeData, setTimeData] = useState("");
-    console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ timeData", timeData);
-    const [selectedSeats, SetSelectedSeats] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
 
     return (
         <BrowserRouter>
             <GlobalStyles />
-            <Header SetSelectedSeats={SetSelectedSeats}></Header>
+            <Header setSelectedSeats={setSelectedSeats}></Header>
             <Routes>
                 <Route
                     element={
@@ -45,7 +44,7 @@ function App() {
                             <Reservation
                                 timeData={timeData}
                                 selectedSeats={selectedSeats}
-                                SetSelectedSeats={SetSelectedSeats}
+                                setSelectedSeats={setSelectedSeats}
                             />
                         </DataProvider>
                     }
@@ -54,7 +53,11 @@ function App() {
                 <Route
                     element={
                         <DataProvider value={{}}>
-                            <Checkout selectedSeats={selectedSeats} timeData={timeData} />
+                            <Checkout
+                                timeData={timeData}
+                                selectedSeats={selectedSeats}
+                                setSelectedSeats={setSelectedSeats}
+                            />
                         </DataProvider>
                     }
                     path={`/success`}

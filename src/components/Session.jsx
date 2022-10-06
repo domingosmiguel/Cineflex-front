@@ -29,12 +29,17 @@ export default function Session({ session }) {
     }
     return (
         <FilmSession>
-            <TextContainer>
+            <TextContainer data-identifier="session-date">
                 {weekday} - {date}
             </TextContainer>
             <ButtonsContainer>
                 {showtimes.map((time) => (
-                    <Button key={time.id} data={time.id} handleClick={handleSessionButtonClick}>
+                    <Button
+                        key={time.id}
+                        data={time.id}
+                        handleClick={handleSessionButtonClick}
+                        identifier="hour-minute-btn"
+                    >
                         {time.name}
                     </Button>
                 ))}

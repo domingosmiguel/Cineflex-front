@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function Seat({ children, seat, handleSeatSelection, subtitle, color }) {
+export default function Seat({ children, identifier, seat, handleSeatSelection, subtitle, color }) {
     if (!subtitle) {
         const borderColor = seat.isAvailable
             ? seat.selected
@@ -15,29 +15,31 @@ export default function Seat({ children, seat, handleSeatSelection, subtitle, co
 
         return (
             <MovieSeat
-                onClick={() => handleSeatSelection(seat)}
-                available={seat.isAvailable}
+                onClick={
+                    seat.isAvailable
+                        ? () => handleSeatSelection(seat)
+                        : () => alert("Esse assento não está disponível")
+                }
+                data-identifier={identifier}
                 borderColor={borderColor}
                 backGroundColor={backGroundColor}
             >
                 {children}
             </MovieSeat>
         );
-    } else {
-        return (
-            <MovieSeat
-                available={!subtitle}
-                borderColor={color.borderColor}
-                backGroundColor={color.backGroundColor}
-            >
-                {children}
-            </MovieSeat>
-        );
     }
+    return (
+        <MovieSeat
+            data-identifier={identifier}
+            borderColor={color.borderColor}
+            backGroundColor={color.backGroundColor}
+        >
+            {children}
+        </MovieSeat>
+    );
 }
 
 const MovieSeat = styled.div`
-    pointer-events: ${({ available }) => (available ? "auto" : "none")};
     width: 26px;
     height: 26px;
     background-color: ${({ backGroundColor }) => backGroundColor};

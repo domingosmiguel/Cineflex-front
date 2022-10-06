@@ -5,9 +5,14 @@ import styled from "styled-components";
 import Button from "./Button";
 import Title from "./Title";
 
-export default function Checkout({ selectedSeats, timeData }) {
+export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
     const { day, movie, name } = timeData;
     const navigate = useNavigate();
+
+    function handleHomeButtonClick() {
+        navigate("/");
+        setSelectedSeats([]);
+    }
     return (
         <React.Fragment>
             <Title color="var(--darkGreen)" fontWeight="700">
@@ -18,7 +23,7 @@ export default function Checkout({ selectedSeats, timeData }) {
             <CheckoutContainer>
                 <CheckoutDisplay>
                     <h2>Filme e sessão</h2>
-                    <h3>
+                    <h3 data-identifier="movie-session-infos-reserve-finished">
                         {movie.title}
                         <br />
                         {`${day.date} - ${name}`}
@@ -30,7 +35,7 @@ export default function Checkout({ selectedSeats, timeData }) {
                                 ? selSeat.idAssento % 100
                                 : (selSeat.idAssento % 100) - 50;
                         return (
-                            <h3 key={i}>
+                            <h3 key={i} data-identifier="seat-infos-reserve-finished">
                                 Assento {seatNumb}
                                 <br />
                             </h3>
@@ -39,7 +44,7 @@ export default function Checkout({ selectedSeats, timeData }) {
                     <h2>Comprador</h2>
                     {selectedSeats.map((selSeat, i) => {
                         return (
-                            <h3 key={i}>
+                            <h3 key={i} data-identifier="buyer-infos-reserve-finished">
                                 Nome: {selSeat.nome}
                                 <br />
                                 CPF: {selSeat.cpf}
@@ -48,7 +53,11 @@ export default function Checkout({ selectedSeats, timeData }) {
                         );
                     })}
                     <ButtonContainer>
-                        <Button data="/" handleClick={navigate}>
+                        <Button
+                            identifier="back-to-home-btn"
+                            data="/"
+                            handleClick={handleHomeButtonClick}
+                        >
                             Voltar pra Home
                         </Button>
                     </ButtonContainer>

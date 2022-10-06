@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import Poster from "./Poster";
 
-export default function Movies(props) {
+export default function Movies() {
     const [moviesData, setMoviesData] = useState([]);
     function moviesSuccessfullyLoad({ data }) {
         setMoviesData([...data]);

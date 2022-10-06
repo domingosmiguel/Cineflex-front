@@ -24,7 +24,14 @@ export default function Poster({ movie }) {
             .then(sessionsSuccessfullyLoad)
             .catch(couldNotLoadSessions);
     }
-    return <MoviePoster onClick={handlePosterClick} src={posterURL} alt={title} />;
+    return (
+        <MoviePoster
+            data-identifier="movie-outdoor"
+            onClick={handlePosterClick}
+            src={posterURL}
+            alt={title}
+        />
+    );
 }
 
 const MoviePoster = styled.img`

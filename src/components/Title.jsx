@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export default function Title({ children, color = "black", fontWeight = "400" }) {
-    console.log("🚀 ~ file: Title.jsx ~ line 4 ~ Title ~ color", color);
     return (
         <PageTitle color={color} fontWeight={fontWeight}>
             {children}

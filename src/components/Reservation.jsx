@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -8,21 +8,47 @@ import SeatDataInput from "./SeatDataInput";
 import Seat from "./Seat";
 import Title from "./Title";
 import Button from "./Button";
+import Modal from "./Modal";
 
-export default function Reservation({ timeData, selectedSeats, SetSelectedSeats }) {
+export default function Reservation({ timeData, selectedSeats, setSelectedSeats }) {
+    console.log(
+        "🚀 ~ file: Reservation.jsx ~ line 14 ~ Reservation ~ selectedSeats",
+        selectedSeats
+    );
     const { day, movie, name, seats } = timeData;
     const navigate = useNavigate();
-    function handleSeatSelection(seat) {
+    const [openModal, setOpenModal] = useState(false);
+    const [seatModal, setSeatModal] = useState({});
+
+    function verifyTypedData(seatId) {
+        for (let seat of selectedSeats) {
+            if (seatId === seat.idAssento && (seat.nome !== "" || seat.cpf !== "")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function removeSeat(seat) {
+        const filteredSeats = selectedSeats.filter(
+            (selectedSeat) => !(selectedSeat.idAssento === seat.id)
+        );
+        setSelectedSeats([...filteredSeats]);
         seat.selected = !seat.selected;
-        if (!seat.selected) {
-            const filteredSeats = selectedSeats.filter(
-                (selectedSeat) => !(selectedSeat.idAssento === seat.id)
-            );
-            SetSelectedSeats([...filteredSeats]);
+    }
+    function handleSeatSelection(seat) {
+        if (seat.selected) {
+            const hasData = verifyTypedData(seat.id);
+            if (hasData) {
+                setSeatModal({ ...seat });
+                setOpenModal(true);
+                return;
+            }
+            removeSeat(seat);
             return;
         }
         const newSelectedSeats = [...selectedSeats, { idAssento: seat.id, nome: "", cpf: "" }];
-        SetSelectedSeats([...newSelectedSeats]);
+        setSelectedSeats([...newSelectedSeats]);
+        seat.selected = !seat.selected;
     }
     function SubtitleGeneration() {
         const possibleSeatStatus = 3;
@@ -32,19 +58,23 @@ export default function Reservation({ timeData, selectedSeats, SetSelectedSeats 
             { borderColor: "var(--darkGray)", backGroundColor: "var(--lightGray)" },
             { borderColor: "var(--darkYellow)", backGroundColor: "var(--lightYellow)" },
         ];
+        const identifier = [
+            "seat-selected-subtitle",
+            "seat-available-subtitle",
+            "seat-unavailable-subtitle",
+        ];
         const subtitles = [];
         for (let i = 0; i < possibleSeatStatus; i++) {
             subtitles.push(
                 <SubtitleDiv key={i}>
-                    <Seat subtitle={true} color={color[i]} />
+                    <Seat subtitle={true} identifier={identifier[i]} color={color[i]} />
                     <SubtitleTxt>{subsText[i]}</SubtitleTxt>
                 </SubtitleDiv>
             );
         }
         return subtitles;
     }
-    function checkoutSucceed({ data }) {
-        console.log(data);
+    function checkoutSucceed() {
         navigate("/success");
     }
     function checkoutFailed(error) {
@@ -64,7 +94,12 @@ export default function Reservation({ timeData, selectedSeats, SetSelectedSeats 
             <SeatsContainer>
                 <SeatsDisplay>
                     {seats.map((seat) => (
-                        <Seat key={seat.id} seat={seat} handleSeatSelection={handleSeatSelection}>
+                        <Seat
+                            key={seat.id}
+                            identifier="seat"
+                            seat={seat}
+                            handleSeatSelection={handleSeatSelection}
+                        >
                             {seat.name}
                         </Seat>
                     ))}
@@ -74,23 +109,25 @@ export default function Reservation({ timeData, selectedSeats, SetSelectedSeats 
                     {selectedSeats.map((selSeat) => (
                         <InputContainer key={selSeat.idAssento}>
                             <SeatDataInput
+                                identifier="buyer-name-input"
                                 selSeat={selSeat}
                                 selectedSeats={selectedSeats}
-                                SetSelectedSeats={SetSelectedSeats}
+                                setSelectedSeats={setSelectedSeats}
                                 type={"nome"}
                             >{`Nome do comprador (assento ${
-                                selSeat.idAssento % 100 < 50
-                                    ? selSeat.idAssento % 100
+                                selSeat.idAssento % 100 <= 50
+                                    ? selSeat.idAssento % 100 || 50
                                     : (selSeat.idAssento % 100) - 50
                             }):`}</SeatDataInput>
                             <SeatDataInput
+                                identifier="buyer-cpf-input"
                                 selSeat={selSeat}
                                 selectedSeats={selectedSeats}
-                                SetSelectedSeats={SetSelectedSeats}
+                                setSelectedSeats={setSelectedSeats}
                                 type={"cpf"}
                             >{`CPF do comprador (assento ${
-                                selSeat.idAssento % 100 < 50
-                                    ? selSeat.idAssento % 100
+                                selSeat.idAssento % 100 <= 50
+                                    ? selSeat.idAssento % 100 || 50
                                     : (selSeat.idAssento % 100) - 50
                             }):`}</SeatDataInput>
                         </InputContainer>
@@ -98,7 +135,7 @@ export default function Reservation({ timeData, selectedSeats, SetSelectedSeats 
                 </AllInputContainer>
                 <ButtonContainer>
                     <Button
-                        data={""}
+                        identifier="reservation-btn"
                         handleClick={checkout}
                         disabled={selectedSeats.length > 0 ? false : true}
                     >
@@ -111,6 +148,9 @@ export default function Reservation({ timeData, selectedSeats, SetSelectedSeats 
                 <br />
                 {`${day.weekday} - ${name}`}
             </Footer>
+            {openModal && (
+                <Modal seatModal={seatModal} setOpenModal={setOpenModal} removeSeat={removeSeat} />
+            )}
         </React.Fragment>
     );
 }
@@ -155,8 +195,11 @@ const AllInputContainer = styled.div`
     justify-content: space-around;
     max-width: 900px;
     margin: 0 auto;
+    height: fit-content;
 `;
-const InputContainer = styled.div``;
+const InputContainer = styled.div`
+    height: fit-content;
+`;
 const ButtonContainer = styled.div`
     max-width: 900px;
     margin: 50px auto 0;

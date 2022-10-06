@@ -4,8 +4,8 @@ export default function Footer({ posterURL, children }) {
     return (
         <FooterContainer>
             <FooterBar>
-                <Poster src={posterURL} alt="poster" />
-                {children}
+                <Poster data-identifier="movie-img-preview" src={posterURL} alt="poster" />
+                <p data-identifier="movie-and-session-infos-preview">{children}</p>
             </FooterBar>
         </FooterContainer>
     );

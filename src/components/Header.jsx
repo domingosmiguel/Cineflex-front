@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom/dist";
 import styled from "styled-components";
 
-export default function Header({ SetSelectedSeats }) {
+export default function Header({ setSelectedSeats }) {
     const navigate = useNavigate();
     function handleHeaderClick() {
         navigate("/");
-        SetSelectedSeats([]);
+        setSelectedSeats([]);
     }
     return <PageHeader onClick={handleHeaderClick}>CINEFLEX</PageHeader>;
 }

@@ -1,13 +1,19 @@
 import styled from "styled-components";
 
-export default function Button({ children, data, handleClick, disabled = false }) {
+export default function Button({ children, identifier, data = "", handleClick, disabled = false }) {
     return (
-        <NiceButton disabled={disabled} onClick={() => handleClick(data)} type="button">
+        <NiceButton
+            data-identifier={identifier}
+            disabled={disabled}
+            onClick={() => handleClick(data)}
+            type="button"
+        >
             {children}
         </NiceButton>
     );
 }
 const NiceButton = styled.button`
+    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
     display: inline-block;
     transition: all 0.2s ease-in;
     position: relative;

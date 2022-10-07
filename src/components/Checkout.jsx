@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 import Button from "./Button";
 import Title from "./Title";
+import LoadingPage from "./LoadingPage";
 
 export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
-    const { day, movie, name } = timeData;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const ids = selectedSeats.map((selectedSeat) => selectedSeat.idAssento);
+        const data = { ids: ids, compradores: selectedSeats };
+        axios
+            .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", data)
+            .then(() => {
+                console.log("foi");
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    }, []);
+    if (timeData === null) {
+        return <LoadingPage />;
+    }
+
+    const { day, movie, name } = timeData;
 
     function handleHomeButtonClick() {
         navigate("/");

@@ -1,14 +1,30 @@
+import { useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 import Title from "./Title";
 import Footer from "./Footer";
 import Session from "./Session";
-import React from "react";
+import LoadingPage from "./LoadingPage";
 
-export default function Sessions({ sessionsData }) {
+export default function Sessions({ filmID, sessionsData, setSessionsData }) {
+    useEffect(() => {
+        axios
+            .get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${filmID}/showtimes`)
+            .then(({ data }) => {
+                setSessionsData({ ...data });
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    }, []);
+    if (sessionsData === null) {
+        return <LoadingPage />;
+    }
     const { days, posterURL, title } = sessionsData;
+
     return (
-        <React.Fragment>
+        <>
             <Title color="var(--black)">Selecione o horário</Title>
             <SelectSessionsContainer>
                 <SelectSessions>
@@ -18,7 +34,7 @@ export default function Sessions({ sessionsData }) {
                 </SelectSessions>
             </SelectSessionsContainer>
             <Footer posterURL={posterURL}>{title}</Footer>
-        </React.Fragment>
+        </>
     );
 }
 const SelectSessionsContainer = styled.section`

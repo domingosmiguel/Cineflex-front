@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,12 +9,34 @@ import Seat from "./Seat";
 import Title from "./Title";
 import Button from "./Button";
 import Modal from "./Modal";
+import LoadingPage from "./LoadingPage";
 
-export default function Reservation({ timeData, selectedSeats, setSelectedSeats }) {
-    const { day, movie, name, seats } = timeData;
+export default function Reservation({
+    timeId,
+    timeData,
+    setTimeData,
+    selectedSeats,
+    setSelectedSeats,
+}) {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [seatModal, setSeatModal] = useState({});
+
+    useEffect(() => {
+        axios
+            .get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${timeId}/seats`)
+            .then(({ data }) => {
+                setTimeData({ ...data });
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    }, []);
+    if (timeData === null) {
+        return <LoadingPage />;
+    }
+
+    const { day, movie, name, seats } = timeData;
 
     function verifyTypedData(seatId) {
         for (let seat of selectedSeats) {
@@ -70,22 +92,8 @@ export default function Reservation({ timeData, selectedSeats, setSelectedSeats 
         }
         return subtitles;
     }
-    function checkoutSucceed() {
-        navigate("/success");
-    }
-    function checkoutFailed(error) {
-        alert(error);
-    }
-    function checkout() {
-        const ids = selectedSeats.map((selectedSeat) => selectedSeat.idAssento);
-        const data = { ids: ids, compradores: selectedSeats };
-        axios
-            .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", data)
-            .then(checkoutSucceed)
-            .catch(checkoutFailed);
-    }
     return (
-        <React.Fragment>
+        <>
             <Title>Selecione o(s) assento(s)</Title>
             <ReservationPage>
                 <SeatsContainer>
@@ -134,7 +142,8 @@ export default function Reservation({ timeData, selectedSeats, setSelectedSeats 
                     <ButtonContainer>
                         <Button
                             identifier="reservation-btn"
-                            handleClick={checkout}
+                            data="/success"
+                            handleClick={navigate}
                             disabled={selectedSeats.length > 0 ? false : true}
                         >
                             Reservar assento(s)
@@ -150,7 +159,7 @@ export default function Reservation({ timeData, selectedSeats, setSelectedSeats 
             {openModal && (
                 <Modal seatModal={seatModal} setOpenModal={setOpenModal} removeSeat={removeSeat} />
             )}
-        </React.Fragment>
+        </>
     );
 }
 const ReservationPage = styled.div`

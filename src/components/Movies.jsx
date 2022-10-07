@@ -1,21 +1,25 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import Poster from "./Poster";
+import LoadingPage from "./LoadingPage";
 
 export default function Movies() {
-    const [moviesData, setMoviesData] = useState([]);
-    function moviesSuccessfullyLoad({ data }) {
-        setMoviesData([...data]);
+    const [moviesData, setMoviesData] = useState(null);
+    useEffect(() => {
+        axios
+            .get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
+            .then(({ data }) => {
+                setMoviesData([...data]);
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    }, []);
+    if (moviesData === null) {
+        return <LoadingPage />;
     }
-    function couldNotLoadMovies(error) {
-        alert(error);
-    }
-    axios
-        .get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
-        .then(moviesSuccessfullyLoad)
-        .catch(couldNotLoadMovies);
-
     return (
         <MoviesPostersContainer>
             <MoviePosters>

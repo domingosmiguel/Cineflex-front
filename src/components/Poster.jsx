@@ -1,28 +1,17 @@
 import { useNavigate } from "react-router-dom/dist";
 import { useContext } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 import DataContext from "../dataContext";
 
 export default function Poster({ movie }) {
     const { id, posterURL, title } = movie;
-    const { setFilmId, setSessionsData } = useContext(DataContext);
+    const { setFilmId } = useContext(DataContext);
     const navigate = useNavigate();
 
-    function sessionsSuccessfullyLoad({ data }) {
-        setSessionsData({ ...data });
-        navigate(`/film/${id}`);
-    }
-    function couldNotLoadSessions(error) {
-        alert(error);
-    }
     function handlePosterClick() {
         setFilmId(id);
-        axios
-            .get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${id}/showtimes`)
-            .then(sessionsSuccessfullyLoad)
-            .catch(couldNotLoadSessions);
+        navigate(`/film/${id}`);
     }
     return (
         <MoviePoster

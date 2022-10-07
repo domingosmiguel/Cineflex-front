@@ -12,60 +12,64 @@ import GlobalBackButton from "./components/GlobalBackButton";
 
 function App() {
     const [filmID, setFilmId] = useState("");
-    const [sessionsData, setSessionsData] = useState("");
+    const [sessionsData, setSessionsData] = useState(null);
     const [timeId, setTimeId] = useState("");
-    const [timeData, setTimeData] = useState("");
+    const [timeData, setTimeData] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
 
     return (
-        <BrowserRouter>
+        <>
             <GlobalStyles />
-            <Header setSelectedSeats={setSelectedSeats}></Header>
             {/* <GlobalBackButton /> */}
-            <Routes>
-                <Route
-                    element={
-                        <DataProvider value={{ setFilmId, setSessionsData }}>
-                            <Main />
-                        </DataProvider>
-                    }
-                    path="/"
-                    exact
-                />
-                <Route
-                    element={
-                        <DataProvider value={{ setTimeId, setTimeData }}>
-                            <Sessions sessionsData={sessionsData} />
-                        </DataProvider>
-                    }
-                    path={`/film/${filmID}`}
-                />
-                <Route
-                    element={
-                        <DataProvider value={{}}>
+            <Header setSelectedSeats={setSelectedSeats}></Header>
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        element={
+                            <DataProvider value={{ setFilmId }}>
+                                <Main />
+                            </DataProvider>
+                        }
+                        path="/"
+                        exact
+                    />
+                    <Route
+                        element={
+                            <DataProvider value={{ setTimeId }}>
+                                <Sessions
+                                    filmID={filmID}
+                                    sessionsData={sessionsData}
+                                    setSessionsData={setSessionsData}
+                                />
+                            </DataProvider>
+                        }
+                        path={`/film/${filmID}`}
+                    />
+                    <Route
+                        element={
                             <Reservation
+                                timeId={timeId}
                                 timeData={timeData}
+                                setTimeData={setTimeData}
                                 selectedSeats={selectedSeats}
                                 setSelectedSeats={setSelectedSeats}
                             />
-                        </DataProvider>
-                    }
-                    path={`/session/${timeId}`}
-                />
-                <Route
-                    element={
-                        <DataProvider value={{}}>
+                        }
+                        path={`/session/${timeId}`}
+                    />
+                    <Route
+                        element={
                             <Checkout
                                 timeData={timeData}
                                 selectedSeats={selectedSeats}
                                 setSelectedSeats={setSelectedSeats}
                             />
-                        </DataProvider>
-                    }
-                    path={`/success`}
-                />
-            </Routes>
-        </BrowserRouter>
+                        }
+                        path={`/success`}
+                    />
+                </Routes>
+            </BrowserRouter>
+        </>
     );
 }
 

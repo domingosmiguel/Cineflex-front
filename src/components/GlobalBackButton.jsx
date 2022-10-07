@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./Button";
 
@@ -15,5 +16,4 @@ const GlobalButton = styled.div`
     left: 3px;
     height: 67px;
     z-index: 3;
-    /* background-color: transparent; */
 `;

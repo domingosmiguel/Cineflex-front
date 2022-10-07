@@ -26,6 +26,7 @@ export default function Reservation({
     const [seatModal, setSeatModal] = useState({});
 
     useEffect(() => {
+        setTimeData(null);
         setSelectedSeats([]);
         axios
             .get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${timeId}/seats`)

@@ -8,6 +8,7 @@ import LoadingPage from "./LoadingPage";
 export default function Movies() {
     const [moviesData, setMoviesData] = useState(null);
     useEffect(() => {
+        setMoviesData(null);
         axios
             .get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
             .then(({ data }) => {

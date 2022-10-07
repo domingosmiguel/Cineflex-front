@@ -17,20 +17,23 @@ export default function Checkout({
 }) {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
+    const [successfulReservation, setSuccessfulReservation] = useState(null);
 
     useEffect(() => {
+        setSuccessfulReservation(null);
         const ids = selectedSeats.map((selectedSeat) => selectedSeat.idAssento);
         const data = { ids: ids, compradores: selectedSeats };
         axios
             .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", data)
-            .then(() => {
+            .then((data) => {
+                setSuccessfulReservation(!!data);
                 setOpenModal(true);
             })
             .catch((error) => {
                 alert(error);
             });
     }, []);
-    if (timeData === null) {
+    if (successfulReservation === null) {
         return <LoadingPage />;
     }
 

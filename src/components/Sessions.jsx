@@ -9,6 +9,7 @@ import LoadingPage from "./LoadingPage";
 
 export default function Sessions({ filmID, sessionsData, setSessionsData }) {
     useEffect(() => {
+        setSessionsData(null);
         axios
             .get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${filmID}/showtimes`)
             .then(({ data }) => {

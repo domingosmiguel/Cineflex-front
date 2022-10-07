@@ -6,12 +6,15 @@ import DataContext from "../dataContext";
 
 export default function Poster({ movie }) {
     const { id, posterURL, title } = movie;
-    const { setFilmId } = useContext(DataContext);
+    const { setFilmId, functionObj, setNavData } = useContext(DataContext);
+    const addNavHistory = functionObj.add;
     const navigate = useNavigate();
 
     function handlePosterClick() {
         setFilmId(id);
         navigate(`/film/${id}`);
+        setNavData(`/film/${id}`);
+        addNavHistory(`/`);
     }
     return (
         <MoviePoster

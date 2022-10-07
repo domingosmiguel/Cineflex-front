@@ -8,7 +8,6 @@ import Main from "./components/Main";
 import Sessions from "./components/Sessions";
 import Reservation from "./components/Reservation";
 import Checkout from "./components/Checkout";
-import GlobalBackButton from "./components/GlobalBackButton";
 
 function App() {
     const [filmID, setFilmId] = useState("");
@@ -16,17 +15,28 @@ function App() {
     const [timeId, setTimeId] = useState("");
     const [timeData, setTimeData] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
-
+    const [navHistory, setNavHistory] = useState([]);
+    const [navData, setNavData] = useState([]);
+    const functionObj = {
+        add: (newHistory) => {
+            navHistory.unshift(newHistory);
+            setNavHistory(navHistory);
+        },
+        rm: () => {
+            const newNavaData = navHistory.shift();
+            setNavHistory(navHistory);
+            setNavData(newNavaData);
+        },
+    };
     return (
         <>
             <GlobalStyles />
-            {/* <GlobalBackButton /> */}
-            <Header setSelectedSeats={setSelectedSeats}></Header>
             <BrowserRouter>
+                <Header navHistory={navHistory} functionObj={functionObj}></Header>
                 <Routes>
                     <Route
                         element={
-                            <DataProvider value={{ setFilmId }}>
+                            <DataProvider value={{ setFilmId, functionObj, setNavData }}>
                                 <Main />
                             </DataProvider>
                         }
@@ -35,7 +45,7 @@ function App() {
                     />
                     <Route
                         element={
-                            <DataProvider value={{ setTimeId }}>
+                            <DataProvider value={{ setTimeId, functionObj, navData, setNavData }}>
                                 <Sessions
                                     filmID={filmID}
                                     sessionsData={sessionsData}
@@ -53,6 +63,9 @@ function App() {
                                 setTimeData={setTimeData}
                                 selectedSeats={selectedSeats}
                                 setSelectedSeats={setSelectedSeats}
+                                functionObj={functionObj}
+                                navData={navData}
+                                setNavData={setNavData}
                             />
                         }
                         path={`/session/${timeId}`}
@@ -63,6 +76,8 @@ function App() {
                                 timeData={timeData}
                                 selectedSeats={selectedSeats}
                                 setSelectedSeats={setSelectedSeats}
+                                setNavHistory={setNavHistory}
+                                setNavData={setNavData}
                             />
                         }
                         path={`/success`}

@@ -17,12 +17,16 @@ export default function Reservation({
     setTimeData,
     selectedSeats,
     setSelectedSeats,
+    functionObj,
+    navData,
+    setNavData,
 }) {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [seatModal, setSeatModal] = useState({});
 
     useEffect(() => {
+        setSelectedSeats([]);
         axios
             .get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${timeId}/seats`)
             .then(({ data }) => {
@@ -37,6 +41,7 @@ export default function Reservation({
     }
 
     const { day, movie, name, seats } = timeData;
+    const addNavHistory = functionObj.add;
 
     function verifyTypedData(seatId) {
         for (let seat of selectedSeats) {
@@ -92,6 +97,11 @@ export default function Reservation({
         }
         return subtitles;
     }
+    function handleButtonClick(destination) {
+        navigate(destination);
+        addNavHistory(navData);
+        setNavData(destination);
+    }
     return (
         <>
             <Title>Selecione o(s) assento(s)</Title>
@@ -143,7 +153,7 @@ export default function Reservation({
                         <Button
                             identifier="reservation-btn"
                             data="/success"
-                            handleClick={navigate}
+                            handleClick={handleButtonClick}
                             disabled={selectedSeats.length > 0 ? false : true}
                         >
                             Reservar assento(s)

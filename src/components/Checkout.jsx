@@ -8,7 +8,13 @@ import Title from "./Title";
 import LoadingPage from "./LoadingPage";
 import Modal from "./Modal";
 
-export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
+export default function Checkout({
+    timeData,
+    selectedSeats,
+    setSelectedSeats,
+    setNavHistory,
+    setNavData,
+}) {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
 
@@ -33,12 +39,15 @@ export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) 
     function handleHomeButtonClick() {
         navigate("/");
         setSelectedSeats([]);
+        setNavHistory([]);
+        setNavData([]);
     }
     return (
         <>
             {openModal && (
                 <Modal setOpenModal={setOpenModal}>
-                    Compra realizada com sucesso! Obrigado pela preferência.
+                    Reserva realizada com sucesso, dirija-se á um de nossos guichês para concluir a
+                    compra! Obrigado pela preferência.
                 </Modal>
             )}
             <Title color="var(--darkGreen)" fontWeight="700">
@@ -58,7 +67,7 @@ export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) 
                     {selectedSeats.map((selSeat, i) => {
                         const seatNumb =
                             selSeat.idAssento % 100 < 50
-                                ? selSeat.idAssento % 100
+                                ? selSeat.idAssento % 100 || 50
                                 : (selSeat.idAssento % 100) - 50;
                         return (
                             <h3 key={i} data-identifier="seat-infos-reserve-finished">

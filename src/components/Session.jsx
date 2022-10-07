@@ -7,12 +7,15 @@ import Button from "./Button";
 
 export default function Session({ session }) {
     const { weekday, date, showtimes } = session;
-    const { setTimeId } = useContext(DataContext);
+    const { setTimeId, functionObj, navData, setNavData } = useContext(DataContext);
+    const addNavHistory = functionObj.add;
     const navigate = useNavigate();
 
     function handleSessionButtonClick(timeId) {
         setTimeId(timeId);
         navigate(`/session/${timeId}`);
+        addNavHistory(navData);
+        setNavData(`/session/${timeId}`);
     }
     return (
         <FilmSession>

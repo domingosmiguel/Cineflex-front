@@ -42,7 +42,6 @@ export default function SeatDataInput({
             setIsValid(newValidation);
         }
     }
-    console.log(isValid);
     return (
         <InputContainer>
             <InputTitle>{children}</InputTitle>

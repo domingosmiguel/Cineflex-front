@@ -2,13 +2,18 @@ import { Link, useNavigate } from "react-router-dom/dist";
 import styled from "styled-components";
 import Button from "./Button";
 
-export default function Header({ setSelectedSeats }) {
+export default function Header({ navHistory, functionObj }) {
+    const removeNavHistory = functionObj.rm;
     return (
         <PageHeader>
-            <Container>
-                <ButtonContainer>
-                    <Button>Voltar</Button>
-                </ButtonContainer>
+            <Container hasButton={navHistory.length !== 0}>
+                {navHistory.length !== 0 && (
+                    <ButtonContainer>
+                        <Link to={navHistory[0]}>
+                            <Button handleClick={removeNavHistory}>Voltar</Button>
+                        </Link>
+                    </ButtonContainer>
+                )}
                 CINEFLEX
             </Container>
         </PageHeader>
@@ -33,10 +38,12 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    @media (max-width: 360px) {
-        padding: 0 10px;
-        justify-content: space-between;
-    }
+    ${({ hasButton }) =>
+        hasButton &&
+        `@media (max-width: 360px) {
+            padding: 0 10px;
+            justify-content: space-between;
+        }`};
 `;
 const ButtonContainer = styled.nav`
     position: absolute;

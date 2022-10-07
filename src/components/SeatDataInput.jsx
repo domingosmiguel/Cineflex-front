@@ -45,14 +45,22 @@ const InputBox = styled.input`
     width: 280px;
     height: 50px;
     padding: 15px;
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    font-size: 18px;
+    line-height: 21px;
+    color: #afafaf;
 
-    &:placeholder-shown {
+    &::placeholder {
         font-style: italic;
         font-weight: 400;
-        font-size: 16px;
+        font-size: 17px;
         line-height: 21px;
         display: flex;
         align-items: center;
-        color: #afafaf;
+        color: #d4d4d4;
+    }
+    &:focus {
+        outline: none;
     }
 `;

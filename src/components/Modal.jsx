@@ -10,8 +10,8 @@ function Modal({ seatModal, setOpenModal, removeSeat }) {
     return (
         <ModalBackground onClick={() => setOpenModal(false)}>
             <ModalContainer
-                onClick={(e) => {
-                    e.stopPropagation();
+                onClick={(event) => {
+                    event.stopPropagation();
                 }}
             >
                 <ModalText>
@@ -19,7 +19,7 @@ function Modal({ seatModal, setOpenModal, removeSeat }) {
                     afirmativo, esses dados serão perdidos.
                 </ModalText>
                 <ModalButtonsContainer>
-                    <ModalButton onClick={handleDeleteButton}>Desfazer</ModalButton>
+                    <ModalButton onClick={handleDeleteButton}>Confirmar</ModalButton>
                     <Button data={false} handleClick={setOpenModal}>
                         Voltar
                     </Button>
@@ -41,7 +41,6 @@ const ModalBackground = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     perspective: 1400px;
 `;
 const slideInFwdCenter = keyframes`

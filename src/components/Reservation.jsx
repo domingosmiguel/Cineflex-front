@@ -11,10 +11,6 @@ import Button from "./Button";
 import Modal from "./Modal";
 
 export default function Reservation({ timeData, selectedSeats, setSelectedSeats }) {
-    console.log(
-        "🚀 ~ file: Reservation.jsx ~ line 14 ~ Reservation ~ selectedSeats",
-        selectedSeats
-    );
     const { day, movie, name, seats } = timeData;
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -39,7 +35,7 @@ export default function Reservation({ timeData, selectedSeats, setSelectedSeats 
         if (seat.selected) {
             const hasData = verifyTypedData(seat.id);
             if (hasData) {
-                setSeatModal({ ...seat });
+                setSeatModal(seat);
                 setOpenModal(true);
                 return;
             }
@@ -91,58 +87,61 @@ export default function Reservation({ timeData, selectedSeats, setSelectedSeats 
     return (
         <React.Fragment>
             <Title>Selecione o(s) assento(s)</Title>
-            <SeatsContainer>
-                <SeatsDisplay>
-                    {seats.map((seat) => (
-                        <Seat
-                            key={seat.id}
-                            identifier="seat"
-                            seat={seat}
-                            handleSeatSelection={handleSeatSelection}
+            <ReservationPage>
+                <SeatsContainer>
+                    <SeatsDisplay>
+                        <MovieScreen />
+                        {seats.map((seat) => (
+                            <Seat
+                                key={seat.id}
+                                identifier="seat"
+                                seat={seat}
+                                handleSeatSelection={handleSeatSelection}
+                            >
+                                {seat.name}
+                            </Seat>
+                        ))}
+                    </SeatsDisplay>
+                    <SeatsSubtitleContainer>{SubtitleGeneration()}</SeatsSubtitleContainer>
+                    <AllInputContainer>
+                        {selectedSeats.map((selSeat) => (
+                            <InputContainer key={selSeat.idAssento}>
+                                <SeatDataInput
+                                    identifier="buyer-name-input"
+                                    selSeat={selSeat}
+                                    selectedSeats={selectedSeats}
+                                    setSelectedSeats={setSelectedSeats}
+                                    type={"nome"}
+                                >{`Nome do comprador (assento ${
+                                    selSeat.idAssento % 100 <= 50
+                                        ? selSeat.idAssento % 100 || 50
+                                        : (selSeat.idAssento % 100) - 50
+                                }):`}</SeatDataInput>
+                                <SeatDataInput
+                                    identifier="buyer-cpf-input"
+                                    selSeat={selSeat}
+                                    selectedSeats={selectedSeats}
+                                    setSelectedSeats={setSelectedSeats}
+                                    type={"cpf"}
+                                >{`CPF do comprador (assento ${
+                                    selSeat.idAssento % 100 <= 50
+                                        ? selSeat.idAssento % 100 || 50
+                                        : (selSeat.idAssento % 100) - 50
+                                }):`}</SeatDataInput>
+                            </InputContainer>
+                        ))}
+                    </AllInputContainer>
+                    <ButtonContainer>
+                        <Button
+                            identifier="reservation-btn"
+                            handleClick={checkout}
+                            disabled={selectedSeats.length > 0 ? false : true}
                         >
-                            {seat.name}
-                        </Seat>
-                    ))}
-                </SeatsDisplay>
-                <SeatsSubtitleContainer>{SubtitleGeneration()}</SeatsSubtitleContainer>
-                <AllInputContainer>
-                    {selectedSeats.map((selSeat) => (
-                        <InputContainer key={selSeat.idAssento}>
-                            <SeatDataInput
-                                identifier="buyer-name-input"
-                                selSeat={selSeat}
-                                selectedSeats={selectedSeats}
-                                setSelectedSeats={setSelectedSeats}
-                                type={"nome"}
-                            >{`Nome do comprador (assento ${
-                                selSeat.idAssento % 100 <= 50
-                                    ? selSeat.idAssento % 100 || 50
-                                    : (selSeat.idAssento % 100) - 50
-                            }):`}</SeatDataInput>
-                            <SeatDataInput
-                                identifier="buyer-cpf-input"
-                                selSeat={selSeat}
-                                selectedSeats={selectedSeats}
-                                setSelectedSeats={setSelectedSeats}
-                                type={"cpf"}
-                            >{`CPF do comprador (assento ${
-                                selSeat.idAssento % 100 <= 50
-                                    ? selSeat.idAssento % 100 || 50
-                                    : (selSeat.idAssento % 100) - 50
-                            }):`}</SeatDataInput>
-                        </InputContainer>
-                    ))}
-                </AllInputContainer>
-                <ButtonContainer>
-                    <Button
-                        identifier="reservation-btn"
-                        handleClick={checkout}
-                        disabled={selectedSeats.length > 0 ? false : true}
-                    >
-                        Reservar assento(s)
-                    </Button>
-                </ButtonContainer>
-            </SeatsContainer>
+                            Reservar assento(s)
+                        </Button>
+                    </ButtonContainer>
+                </SeatsContainer>
+            </ReservationPage>
             <Footer posterURL={movie.posterURL}>
                 {movie.title}
                 <br />
@@ -154,29 +153,54 @@ export default function Reservation({ timeData, selectedSeats, setSelectedSeats 
         </React.Fragment>
     );
 }
+const ReservationPage = styled.div`
+    position: relative;
+    overflow-y: scroll;
+    width: 100vw;
+    height: calc(100vh - 294px);
+`;
 
 const SeatsContainer = styled.div`
-    margin-top: -5px;
+    max-width: 1240px;
     width: 100%;
-    position: absolute;
-    top: 177px;
-    bottom: 117px;
-    overflow-y: scroll;
+    height: fit-content;
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 25px;
 `;
 const SeatsDisplay = styled.div`
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 900px;
+    width: 325px;
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 0 10px 12px;
+    display: grid;
+    gap: 9px 5px;
+    grid-template-columns: repeat(10, 26px);
+    grid-template-rows: repeat(7, 26px);
+    grid-template-areas:
+        "sc sc sc sc sc sc sc sc sc sc"
+        /* ".. .. .. .. .. .. .. .. .. .." */
+        /* ".. .. .. .. .. .. .. .. .. .." */
+        "se .. SE SE SE SE SE .. Se Se"
+        "se .. SE SE SE SE SE .. Se Se"
+        "se .. SE SE SE SE SE .. Se Se"
+        "se .. SE SE SE SE SE .. Se Se"
+        "se .. SE SE SE SE SE .. Se Se"
+        "sE sE sE sE sE sE sE sE sE sE";
+
+    @media (min-width: 720px) {
+        margin: 0;
+    }
 `;
 const SeatsSubtitleContainer = styled.div`
-    max-width: 900px;
+    max-width: 325px;
     margin: 0 auto;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+
+    @media (min-width: 720px) {
+        margin: 0;
+    }
 `;
 const SubtitleDiv = styled.div`
     display: flex;
@@ -188,21 +212,40 @@ const SubtitleTxt = styled.p`
     font-size: 13px;
     line-height: 15px;
     letter-spacing: -0.013em;
+    margin-top: 9px;
 `;
 const AllInputContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    max-width: 900px;
     margin: 0 auto;
     height: fit-content;
+
+    @media (min-width: 720px) {
+        max-width: 100%;
+        margin-left: 345px;
+        justify-content: flex-start;
+        position: absolute;
+        top: 0;
+    }
 `;
 const InputContainer = styled.div`
     height: fit-content;
+    margin: 5px 5px;
 `;
 const ButtonContainer = styled.div`
-    max-width: 900px;
     margin: 50px auto 0;
     display: flex;
     justify-content: center;
+    width: 325px;
+
+    @media (min-width: 720px) {
+        margin: 50px 0 0;
+    }
+`;
+const MovieScreen = styled.div`
+    height: 3px;
+    grid-area: "sc";
+    grid-column: sc;
+    background-color: var(--darkGray);
 `;

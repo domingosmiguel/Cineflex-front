@@ -8,6 +8,7 @@ import Main from "./components/Main";
 import Sessions from "./components/Sessions";
 import Reservation from "./components/Reservation";
 import Checkout from "./components/Checkout";
+import GlobalBackButton from "./components/GlobalBackButton";
 
 function App() {
     const [filmID, setFilmId] = useState("");
@@ -20,6 +21,7 @@ function App() {
         <BrowserRouter>
             <GlobalStyles />
             <Header setSelectedSeats={setSelectedSeats}></Header>
+            {/* <GlobalBackButton /> */}
             <Routes>
                 <Route
                     element={

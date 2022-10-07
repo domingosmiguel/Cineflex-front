@@ -30,10 +30,10 @@ const SelectSessionsContainer = styled.section`
 `;
 const SelectSessions = styled.section`
     position: relative;
-    max-width: 900px;
+    max-width: 1240px;
     margin: 0 auto;
     padding: 0 15px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
 `;

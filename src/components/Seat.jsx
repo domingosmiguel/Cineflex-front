@@ -20,6 +20,7 @@ export default function Seat({ children, identifier, seat, handleSeatSelection, 
                         ? () => handleSeatSelection(seat)
                         : () => alert("Esse assento não está disponível")
                 }
+                available={seat.isAvailable}
                 data-identifier={identifier}
                 borderColor={borderColor}
                 backGroundColor={backGroundColor}
@@ -40,6 +41,7 @@ export default function Seat({ children, identifier, seat, handleSeatSelection, 
 }
 
 const MovieSeat = styled.div`
+    pointer-events: ${({ available }) => (available ? "auto" : "none")};
     width: 26px;
     height: 26px;
     background-color: ${({ backGroundColor }) => backGroundColor};
@@ -49,9 +51,11 @@ const MovieSeat = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 9px 5px;
+    /* margin: 9px 5px; */
     cursor: pointer;
     font-size: 11px;
     line-height: 13px;
     letter-spacing: 0.04em;
+
+    /* grid-area: SE; */
 `;

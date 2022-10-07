@@ -75,7 +75,7 @@ const CheckoutContainer = styled.section`
 `;
 const CheckoutDisplay = styled.div`
     position: relative;
-    max-width: 900px;
+    max-width: 1240px;
     width: 100%;
     padding: 0 30px;
     margin: 0 auto;
@@ -95,7 +95,7 @@ const CheckoutDisplay = styled.div`
     }
 `;
 const ButtonContainer = styled.div`
-    max-width: 900px;
+    max-width: 1240px;
     margin: 50px auto 0;
     display: flex;
     justify-content: center;

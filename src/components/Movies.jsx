@@ -38,9 +38,10 @@ const MoviesPostersContainer = styled.div`
 `;
 
 const MoviePosters = styled.div`
-    max-width: fit-content;
+    max-width: 1650px;
+    width: fit-content;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     margin: 0 auto;
 `;

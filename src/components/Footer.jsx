@@ -22,7 +22,7 @@ const FooterContainer = styled.div`
     align-items: center;
 `;
 const FooterBar = styled.div`
-    max-width: 900px;
+    max-width: 1240px;
     width: 100%;
     margin: 0 auto;
     padding: 0 10px;

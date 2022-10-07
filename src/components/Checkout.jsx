@@ -22,7 +22,7 @@ export default function Checkout({
     useEffect(() => {
         setSuccessfulReservation(null);
         const ids = selectedSeats.map((selectedSeat) => selectedSeat.idAssento);
-        const data = { ids: ids, compradores: selectedSeats };
+        const data = { ids, compradores: selectedSeats };
         axios
             .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", data)
             .then((data) => {

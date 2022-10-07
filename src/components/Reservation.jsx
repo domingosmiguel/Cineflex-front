@@ -45,7 +45,7 @@ export default function Reservation({
     const addNavHistory = functionObj.add;
 
     function verifyTypedData(seatId) {
-        for (let seat of selectedSeats) {
+        for (const seat of selectedSeats) {
             if (seatId === seat.idAssento && (seat.nome !== "" || seat.cpf !== "")) {
                 return true;
             }
@@ -54,7 +54,7 @@ export default function Reservation({
     }
     function removeSeat(seat) {
         const filteredSeats = selectedSeats.filter(
-            (selectedSeat) => !(selectedSeat.idAssento === seat.id)
+            (selectedSeat) => selectedSeat.idAssento !== seat.id
         );
         setSelectedSeats([...filteredSeats]);
         seat.selected = !seat.selected;

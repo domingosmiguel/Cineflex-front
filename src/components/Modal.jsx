@@ -2,26 +2,27 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import Button from "./Button";
 
-function Modal({ seatModal, setOpenModal, removeSeat }) {
+function Modal({ children, seatModal, setOpenModal, removeSeat }) {
     function handleDeleteButton() {
         setOpenModal(false);
-        removeSeat(seatModal);
+        children || removeSeat(seatModal);
     }
     return (
-        <ModalBackground onClick={() => setOpenModal(false)}>
+        <ModalBackground onClick={() => children || setOpenModal(false)}>
             <ModalContainer
                 onClick={(event) => {
                     event.stopPropagation();
                 }}
             >
                 <ModalText>
-                    Você já inseriu dados para este assento, deseja desfazer a seleção? Em caso
-                    afirmativo, esses dados serão perdidos.
+                    {children ||
+                        `Você já inseriu dados para o assento ${seatModal.name}, deseja desfazer a
+                    seleção? Em caso afirmativo, esses dados serão perdidos.`}
                 </ModalText>
                 <ModalButtonsContainer>
-                    <ModalButton onClick={handleDeleteButton}>Confirmar</ModalButton>
+                    {!children && <ModalButton onClick={handleDeleteButton}>Confirmar</ModalButton>}
                     <Button data={false} handleClick={setOpenModal}>
-                        Voltar
+                        {children ? "OK" : "Voltar"}
                     </Button>
                 </ModalButtonsContainer>
             </ModalContainer>

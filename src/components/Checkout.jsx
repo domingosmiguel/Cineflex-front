@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -6,9 +6,11 @@ import axios from "axios";
 import Button from "./Button";
 import Title from "./Title";
 import LoadingPage from "./LoadingPage";
+import Modal from "./Modal";
 
 export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
     const navigate = useNavigate();
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         const ids = selectedSeats.map((selectedSeat) => selectedSeat.idAssento);
@@ -16,7 +18,7 @@ export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) 
         axios
             .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", data)
             .then(() => {
-                console.log("foi");
+                setOpenModal(true);
             })
             .catch((error) => {
                 alert(error);
@@ -33,7 +35,12 @@ export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) 
         setSelectedSeats([]);
     }
     return (
-        <React.Fragment>
+        <>
+            {openModal && (
+                <Modal setOpenModal={setOpenModal}>
+                    Compra realizada com sucesso! Obrigado pela preferência.
+                </Modal>
+            )}
             <Title color="var(--darkGreen)" fontWeight="700">
                 Pedido feito
                 <br />
@@ -82,7 +89,7 @@ export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) 
                     </ButtonContainer>
                 </CheckoutDisplay>
             </CheckoutContainer>
-        </React.Fragment>
+        </>
     );
 }
 

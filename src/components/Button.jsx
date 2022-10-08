@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export default function Button({ children, identifier, data = "", handleClick, disabled = false }) {
+export default function Button({ children, identifier, handleClick, disabled = false }) {
     return (
         <NiceButton
             data-identifier={identifier}
             disabled={disabled}
-            onClick={() => handleClick(data)}
+            onClick={handleClick}
             type="button"
         >
             {children}

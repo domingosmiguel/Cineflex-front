@@ -1,17 +1,15 @@
-import { Link, useNavigate } from "react-router-dom/dist";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./Button";
 
-export default function Header({ navHistory, functionObj }) {
-    const removeNavHistory = functionObj.rm;
+export default function Header() {
+    const navigate = useNavigate();
     return (
         <PageHeader>
-            <Container hasButton={navHistory.length !== 0}>
-                {navHistory.length !== 0 && (
+            <Container hasButton={true}>
+                {true && (
                     <ButtonContainer>
-                        <Link to={navHistory[0]}>
-                            <Button handleClick={removeNavHistory}>Voltar</Button>
-                        </Link>
+                        <Button handleClick={() => navigate(-1)}>Voltar</Button>
                     </ButtonContainer>
                 )}
                 CINEFLEX

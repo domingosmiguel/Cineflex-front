@@ -8,13 +8,7 @@ import Title from "./Title";
 import LoadingPage from "./LoadingPage";
 import Modal from "./Modal";
 
-export default function Checkout({
-    timeData,
-    selectedSeats,
-    setSelectedSeats,
-    setNavHistory,
-    setNavData,
-}) {
+export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [successfulReservation, setSuccessfulReservation] = useState(null);
@@ -42,8 +36,6 @@ export default function Checkout({
     function handleHomeButtonClick() {
         navigate("/");
         setSelectedSeats([]);
-        setNavHistory([]);
-        setNavData([]);
     }
     return (
         <>
@@ -91,11 +83,7 @@ export default function Checkout({
                         );
                     })}
                     <ButtonContainer>
-                        <Button
-                            identifier="back-to-home-btn"
-                            data="/"
-                            handleClick={handleHomeButtonClick}
-                        >
+                        <Button identifier="back-to-home-btn" handleClick={handleHomeButtonClick}>
                             Voltar pra Home
                         </Button>
                     </ButtonContainer>

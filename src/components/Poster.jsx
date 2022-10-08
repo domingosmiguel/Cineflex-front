@@ -1,25 +1,14 @@
 import { useNavigate } from "react-router-dom/dist";
-import { useContext } from "react";
 import styled from "styled-components";
-
-import DataContext from "../dataContext";
 
 export default function Poster({ movie }) {
     const { id, posterURL, title } = movie;
-    const { setFilmId, functionObj, setNavData } = useContext(DataContext);
-    const addNavHistory = functionObj.add;
     const navigate = useNavigate();
 
-    function handlePosterClick() {
-        setFilmId(id);
-        navigate(`/film/${id}`);
-        setNavData(`/film/${id}`);
-        addNavHistory(`/`);
-    }
     return (
         <MoviePoster
             data-identifier="movie-outdoor"
-            onClick={handlePosterClick}
+            onClick={() => navigate(`/film/${id}`)}
             src={posterURL}
             alt={title}
         />

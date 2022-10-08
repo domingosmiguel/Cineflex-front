@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Footer from "./Footer";
 import SeatDataInput from "./SeatDataInput";
@@ -11,20 +11,11 @@ import Button from "./Button";
 import Modal from "./Modal";
 import LoadingPage from "./LoadingPage";
 
-export default function Reservation({
-    timeId,
-    timeData,
-    setTimeData,
-    selectedSeats,
-    setSelectedSeats,
-    functionObj,
-    navData,
-    setNavData,
-}) {
+export default function Reservation({ timeData, setTimeData, selectedSeats, setSelectedSeats }) {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [seatModal, setSeatModal] = useState({});
-
+    const { timeId } = useParams();
     useEffect(() => {
         setTimeData(null);
         setSelectedSeats([]);
@@ -40,9 +31,7 @@ export default function Reservation({
     if (timeData === null) {
         return <LoadingPage />;
     }
-
     const { day, movie, name, seats } = timeData;
-    const addNavHistory = functionObj.add;
 
     function verifyTypedData(seatId) {
         for (const seat of selectedSeats) {
@@ -98,11 +87,6 @@ export default function Reservation({
         }
         return subtitles;
     }
-    function handleButtonClick(destination) {
-        navigate(destination);
-        addNavHistory(navData);
-        setNavData(destination);
-    }
     return (
         <>
             <Title>Selecione o(s) assento(s)</Title>
@@ -153,8 +137,7 @@ export default function Reservation({
                     <ButtonContainer>
                         <Button
                             identifier="reservation-btn"
-                            data="/success"
-                            handleClick={handleButtonClick}
+                            handleClick={() => navigate("/success")}
                             disabled={selectedSeats.length > 0 ? false : true}
                         >
                             Reservar assento(s)
@@ -198,15 +181,12 @@ const SeatsDisplay = styled.div`
     grid-template-rows: repeat(7, 26px);
     grid-template-areas:
         "sc sc sc sc sc sc sc sc sc sc"
-        /* ".. .. .. .. .. .. .. .. .. .." */
-        /* ".. .. .. .. .. .. .. .. .. .." */
-        "se .. SE SE SE SE SE .. Se Se"
-        "se .. SE SE SE SE SE .. Se Se"
-        "se .. SE SE SE SE SE .. Se Se"
-        "se .. SE SE SE SE SE .. Se Se"
-        "se .. SE SE SE SE SE .. Se Se"
-        "sE sE sE sE sE sE sE sE sE sE";
-
+        "se se se se se se se se se se"
+        "se se se se se se se se se se"
+        "se se se se se se se se se se"
+        "se se se se se se se se se se"
+        "se se se se se se se se se se"
+        "se se se se se se se se se se";
     @media (min-width: 720px) {
         margin: 0;
     }

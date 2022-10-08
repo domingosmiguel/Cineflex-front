@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import Title from "./Title";
 import Footer from "./Footer";
 import Session from "./Session";
 import LoadingPage from "./LoadingPage";
 
-export default function Sessions({ filmID, sessionsData, setSessionsData }) {
+export default function Sessions({ sessionsData, setSessionsData }) {
+    const { filmId } = useParams();
     useEffect(() => {
         setSessionsData(null);
         axios
-            .get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${filmID}/showtimes`)
+            .get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${filmId}/showtimes`)
             .then(({ data }) => {
                 setSessionsData({ ...data });
             })

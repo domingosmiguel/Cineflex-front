@@ -1,22 +1,12 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom/dist";
 import styled from "styled-components";
 
-import DataContext from "../dataContext";
 import Button from "./Button";
 
 export default function Session({ session }) {
     const { weekday, date, showtimes } = session;
-    const { setTimeId, functionObj, navData, setNavData } = useContext(DataContext);
-    const addNavHistory = functionObj.add;
     const navigate = useNavigate();
 
-    function handleSessionButtonClick(timeId) {
-        setTimeId(timeId);
-        navigate(`/session/${timeId}`);
-        addNavHistory(navData);
-        setNavData(`/session/${timeId}`);
-    }
     return (
         <FilmSession>
             <TextContainer data-identifier="session-date">
@@ -26,8 +16,7 @@ export default function Session({ session }) {
                 {showtimes.map((time) => (
                     <Button
                         key={time.id}
-                        data={time.id}
-                        handleClick={handleSessionButtonClick}
+                        handleClick={() => navigate(`/session/${time.id}`)}
                         identifier="hour-minute-btn"
                     >
                         {time.name}

@@ -2,7 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import Button from "./Button";
 
-function Modal({ children, seatModal, setOpenModal, removeSeat }) {
+export default function Modal({ children, seatModal, setOpenModal, removeSeat }) {
     function handleDeleteButton() {
         setOpenModal(false);
         children || removeSeat(seatModal);
@@ -21,7 +21,7 @@ function Modal({ children, seatModal, setOpenModal, removeSeat }) {
                 </ModalText>
                 <ModalButtonsContainer>
                     {!children && <ModalButton onClick={handleDeleteButton}>Confirmar</ModalButton>}
-                    <Button data={false} handleClick={setOpenModal}>
+                    <Button handleClick={() => setOpenModal(false)}>
                         {children ? "OK" : "Voltar"}
                     </Button>
                 </ModalButtonsContainer>
@@ -29,8 +29,6 @@ function Modal({ children, seatModal, setOpenModal, removeSeat }) {
         </ModalBackground>
     );
 }
-
-export default Modal;
 
 const ModalBackground = styled.div`
     position: absolute;

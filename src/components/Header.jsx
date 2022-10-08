@@ -1,13 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./Button";
 
 export default function Header() {
     const navigate = useNavigate();
+    const location = useLocation();
     return (
         <PageHeader>
-            <Container hasButton={true}>
-                {true && (
+            <Container hasButton={location.pathname !== "/"}>
+                {location.pathname !== "/" && (
                     <ButtonContainer>
                         <Button handleClick={() => navigate(-1)}>Voltar</Button>
                     </ButtonContainer>

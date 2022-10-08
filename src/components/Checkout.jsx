@@ -9,6 +9,7 @@ import LoadingPage from "./LoadingPage";
 import Modal from "./Modal";
 
 export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
+    console.log("🚀 ~ file: Checkout.jsx ~ line 12 ~ Checkout ~ selectedSeats", selectedSeats);
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [successfulReservation, setSuccessfulReservation] = useState(null);
@@ -61,7 +62,7 @@ export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) 
                     <h2>Ingressos</h2>
                     {selectedSeats.map((selSeat, i) => {
                         const seatNumb =
-                            selSeat.idAssento % 100 < 50
+                            selSeat.idAssento % 100 <= 50
                                 ? selSeat.idAssento % 100 || 50
                                 : (selSeat.idAssento % 100) - 50;
                         return (

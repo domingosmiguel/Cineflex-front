@@ -15,7 +15,7 @@ I first built the whole project without using the useEffect hook. So when I impl
 
 ![GIFs coming soon]()
 
-To show the result, the application was posted on [Vercel](https://hangman-beta-two.vercel.app/)! It was made for desktop navigation only.
+To show the result, the application was posted on [Vercel]()! It was made for desktop navigation only.
 
 ## **How to run**:
 

@@ -9,7 +9,6 @@ import LoadingPage from "./LoadingPage";
 import Modal from "./Modal";
 
 export default function Checkout({ timeData, selectedSeats, setSelectedSeats }) {
-    console.log("🚀 ~ file: Checkout.jsx ~ line 12 ~ Checkout ~ selectedSeats", selectedSeats);
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [successfulReservation, setSuccessfulReservation] = useState(null);

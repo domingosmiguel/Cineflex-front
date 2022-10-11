@@ -55,7 +55,6 @@ const NiceButton = styled.button`
         top: 180%;
         width: 160%;
         height: 190%;
-        /* background-color: var(--midGreen); */
         border-radius: 50%;
         display: block;
         transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
